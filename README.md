@@ -17,4 +17,4 @@
 ```
 
 效果见throttle/index.html:
-![throttle](./assets/throttle.png =150x)
+![throttle](./assets/throttle.png)
