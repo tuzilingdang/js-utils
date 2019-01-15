@@ -15,3 +15,6 @@
         }, 1000)
     }
 ```
+
+效果见throttle/index.html:
+![throttle](./assets/throttle.png)
