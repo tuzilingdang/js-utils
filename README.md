@@ -18,5 +18,8 @@
 
 效果见throttle/index.html:
 
-
 ![throttle](./assets/throttle.png)
+
+
+## 单位格式转换-unitConvert
+将number或string类型的数字转化成万，亿，亿万的格式
