@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        body {
+            background: black;
+        }
+
+        #mouse {
+            margin: 0.5rem auto;
+            width: 200px;
+            height: 200px;
+            background: white;
+        }
+
+        .screen {
+            width: 100%;
+            height: auto;
+        }
+
+        #regular {
+            position: relative;
+            margin: 0.5rem auto;
+            width: 96%;
+            height: 100px;
+            background: white;
+        }
+
+        #debounce {
+            position: relative;
+            margin: 0.5rem auto;
+            width: 96%;
+            height: 100px;
+            background: white;
+        }
+
+        #throttle {
+            position: relative;
+            margin: 0.5rem auto;
+            width: 96%;
+            height: 100px;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mouse"></div>
+
+    <div class="screen">
+        <div id="regular"></div>
+        <div id="debounce">
+        </div>
+        <div id="throttle"></div>
+    </div>
+
+    <script>
+        let mouseArea = document.getElementById("mouse")
+        let regularArea = document.getElementById("regular")
+        let debounceArea = document.getElementById("debounce")
+        let throttleArea = document.getElementById("throttle")
+
+        let regularCount = 0,
+            debounceCount = 0,
+            throttleCount = 0;
+        let start = (new Date()).getTime()
+
+        let handleRegular = function () {
+            regularCount++
+
+            let line = document.createElement("div")
+            line.className = 'debounce-line'
+            line.style.backgroundColor = 'blue'
+            line.style.width = '2px'
+            line.style.height = '100%'
+            line.style.position = 'absolute'
+            line.style.position = 'absolute'
+
+            let end = (new Date()).getTime()
+            line.style.left = ((end - start) / 20) + 'px'
+            regularArea.appendChild(line)
+        }
+
+        let handleDebounce = function (tip) {
+            debounceCount++
+
+            let line = document.createElement("div")
+            line.className = 'debounce-line'
+            line.style.backgroundColor = 'red'
+            line.style.width = '2px'
+            line.style.height = '100%'
+            line.style.position = 'absolute'
+            line.style.position = 'absolute'
+
+            let end = (new Date()).getTime()
+            line.style.left = ((end - start) / 20) + 'px'
+
+            debounceArea.appendChild(line)
+            console.log(tip)
+        }
+
+        mouseArea.addEventListener('mousemove', handleRegular)
+        mouseArea.addEventListener('mousemove', debounce(handleDebounce))
+
+        function debounce(fn, delay) {
+            let timeout
+            delay = delay || 500
+            return function () {
+                let context = this
+                let args = arguments
+                clearTimeout(timeout)
+                timeout = setTimeout(function () {
+                    fn.apply(context, args)
+                }, delay)
+            }
+        }
+
+        function throttle(fn) {
+
+        }
+    </script>
+</body>
+
+
+</html>
