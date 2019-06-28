@@ -9,14 +9,15 @@
 
     <style>
         body {
-            background: black;
+            background: gray;
         }
 
         #mouse {
             margin: 0.5rem auto;
             width: 200px;
             height: 200px;
-            background: white;
+            background: black;
+            color:chartreuse;
         }
 
         .screen {
@@ -29,7 +30,8 @@
             margin: 0.5rem auto;
             width: 96%;
             height: 100px;
-            background: white;
+            background: black;
+            overflow: hidden;
         }
 
         #debounce {
@@ -37,7 +39,8 @@
             margin: 0.5rem auto;
             width: 96%;
             height: 100px;
-            background: white;
+            background: black;
+            overflow: hidden;
         }
 
         #throttle {
@@ -45,13 +48,14 @@
             margin: 0.5rem auto;
             width: 96%;
             height: 100px;
-            background: white;
+            background: black;
+            overflow: hidden;
         }
     </style>
 </head>
 
 <body>
-    <div id="mouse"></div>
+    <div id="mouse">鼠标在此区域移动</div>
 
     <div class="screen">
         <div id="regular"></div>
@@ -76,14 +80,13 @@
 
             let line = document.createElement("div")
             line.className = 'debounce-line'
-            line.style.backgroundColor = 'blue'
+            line.style.backgroundColor = '#08f1f1'
             line.style.width = '2px'
             line.style.height = '100%'
             line.style.position = 'absolute'
-            line.style.position = 'absolute'
 
             let end = (new Date()).getTime()
-            line.style.left = ((end - start) / 20) + 'px'
+            line.style.left = ((end - start) / 10) + 'px'
             regularArea.appendChild(line)
         }
 
@@ -92,21 +95,40 @@
 
             let line = document.createElement("div")
             line.className = 'debounce-line'
-            line.style.backgroundColor = 'red'
+            line.style.backgroundColor = '#e80c7c'
             line.style.width = '2px'
             line.style.height = '100%'
             line.style.position = 'absolute'
-            line.style.position = 'absolute'
 
             let end = (new Date()).getTime()
-            line.style.left = ((end - start) / 20) + 'px'
+            line.style.left = ((end - start) / 10) + 'px'
 
             debounceArea.appendChild(line)
             console.log(tip)
         }
 
+        let handleThrottle = function () {
+            throttleCount++
+
+            let line = document.createElement("div")
+            line.className = 'debounce-line'
+            line.style.backgroundColor = 'orange'
+            line.style.width = '2px'
+            line.style.height = '100%'
+            line.style.position = 'absolute'
+
+            let end = (new Date()).getTime()
+            line.style.left = ((end - start) / 10) + 'px'
+
+            throttleArea.appendChild(line)
+        }
+
+        let debounceFunc =  debounce(handleDebounce)
+        let throttleFunc = throttle(handleThrottle)
+
         mouseArea.addEventListener('mousemove', handleRegular)
-        mouseArea.addEventListener('mousemove', debounce(handleDebounce))
+        mouseArea.addEventListener('mousemove', debounceFunc)
+        mouseArea.addEventListener('mousemove', throttleFunc)
 
         function debounce(fn, delay) {
             let timeout
@@ -121,8 +143,22 @@
             }
         }
 
-        function throttle(fn) {
-
+        function throttle(fn, interval) {
+            let timeout
+            interval = interval || 160
+            let nextTime = (new Date()).getTime() + interval
+            return function () {
+                let context = this
+                let args = arguments
+                let now = (new Date()).getTime()
+                if(now < nextTime) clearTimeout(timeout)
+                else {
+                    nextTime = now + interval
+                    timeout = setTimeout(function () {
+                        fn.apply(context, args)
+                    }, 0)
+                }
+            }
         }
     </script>
 </body>
